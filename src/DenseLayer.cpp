@@ -27,7 +27,7 @@ DenseLayer::DenseLayer(int nodes, int activation, int initialization, int type, 
 
     for(int i = 0; i < output*nodes; i++)
     {
-        this->weight[i] = HeRandomInNormal(nodes);
+        this->weight[i] = 0.5;
     }
 }
 
@@ -73,7 +73,7 @@ void DenseLayer::backward(double* NextLayerDeltas)
         double sum = 0;
         double neuron_derivative = this->act_function_derivative(cache[i]);
         for(int j = 0; j < this->output; j++)
-            sum += weight[wStart + i] * delta[j] * neuron_derivative;
+            sum += weight[wStart + i] * NextLayerDeltas[j] * neuron_derivative;
         delta[i] = sum;
         wStart += this->output;
     }
@@ -89,9 +89,11 @@ void DenseLayer::update(double* NextLayerDeltas)
         {
             deltaSum += NextLayerDeltas[j];
             double gradient = this->neuron[i] * NextLayerDeltas[j];
-            this->weight[wStart+j] = gradient * 0.001; //Learning rate is 0.001 temporarily. for now only using SGD
-        }
+            this->weight[wStart+j] -= gradient * 0.01; //Learning rate is 0.001 temporarily. for now only using SGD
+        /*     cout << this->weight[wStart+j] << ", "; */
+        } 
         wStart += this->output;
     }
-    this->bias -= deltaSum * 0.001;
+    /* cout << endl; */
+    this->bias -= deltaSum * 0.01;
 }

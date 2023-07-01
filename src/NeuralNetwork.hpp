@@ -10,10 +10,10 @@ class NeuralNetwork
     public:
         template<typename... Args> NeuralNetwork(Args... args)
         {
-            this->size = sizeof...(args)-1;
-            lays = new Layer*[this->size];
+            this->size = sizeof...(args);
             const char* params[this->size] = {args...};
-            for(int i = this->size; i >= 0; i--)
+            lays = new Layer*[this->size];
+            for(int i = this->size-1; i >= 0; i--)
             {
                 parse_input(i, params[i]);   // Parsing the input parameter pack to initialize the layers
             }

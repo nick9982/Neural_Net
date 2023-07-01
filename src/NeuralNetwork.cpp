@@ -35,6 +35,7 @@ void NeuralNetwork::parse_input(int idx, string input)
 
     if(split[0] == "Dense")
     {
+        cout << input << endl;
         int nodes = stoi(split[1]);
         lays[idx] = new DenseLayer(stoi(split[1]), StringActToInt(split[2]), StringInitToInt(split[3]), type, LastLayerNodes);
         LastLayerNodes = nodes;
@@ -91,6 +92,9 @@ double* NeuralNetwork::forward(double* input)
         {
             if(DenseLayer* CurrentDenseLayer = dynamic_cast<DenseLayer*>(this->lays[i]))
                 CurrentDenseLayer->forward(NextDenseLayer->getNeurons());
+            /* for(int x = 0; x < 3; x++) */
+            /*     cout << to_string(NextDenseLayer->getNeurons()[x]) << ", "; */
+            /* cout << endl; */
         }
     }
 
@@ -106,7 +110,14 @@ void NeuralNetwork::backward(double* errors)
         if(DenseLayer* NextDenseLayer = dynamic_cast<DenseLayer*>(this->lays[i+1]))
         {
             if(DenseLayer* CurrentDenseLayer = dynamic_cast<DenseLayer*>(this->lays[i]))
+            {
                 CurrentDenseLayer->backward(NextDenseLayer->getDeltas());
+                /* for(int i = 0; i < 3; i++) */
+                /* { */
+                /*     cout << CurrentDenseLayer->getDeltas()[i] << ", "; */
+                /* } */
+                /* cout << endl; */
+            }
         }
     }
 }

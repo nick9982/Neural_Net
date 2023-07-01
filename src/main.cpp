@@ -4,6 +4,27 @@
 
 void learnPowerConsumption();
 
+void test_net()
+{
+    NeuralNetwork nn(
+        "Dense 3 Linear 0.5",
+        "Dense 3 Linear 0.5",
+        "Dense 3 Linear 0.5",
+        "Dense 3 Linear 0.5"
+    );
+
+    double *arr = new double[3]{3, 4, 5};
+    double* output = nn.forward(arr);
+    for(int i = 0; i < 3; i++)
+    {
+        //cout << output[i] << ", ";
+    }
+    double *err = new double[3]{3, 3, 3};
+    nn.backward(err);
+    nn.update();
+    cout << endl;
+    //exit(0);
+}
 int main(int argc, char *argv[])
 {
     /* NeuralNetwork nn("Dense 5 ReLU Xavier", "Dense 10 ReLU Xavier", "Dense 5 ReLU Xavier"); */
@@ -18,6 +39,8 @@ int main(int argc, char *argv[])
     /* { */
     /*     cout << "out: " << output[i] << endl; */
     /* } */
+    test_net();
+    //exit(0);
     learnPowerConsumption();
 }
 
